@@ -1,14 +1,20 @@
 // ==UserScript==
 // @name         B 站优化
 // @namespace    http://tampermonkey.net/
-// @version      0.3.0
-// @description  优化 B 站布局, 清理无用控件
+// @version      0.4.0
+// @description  优化 B 站布局, 清理部分广告和无用内容
 // @author       Firok
 // @match        *.bilibili.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=bilibili.com
 // @grant        none
 // ==/UserScript==
 
+/*
+* - 0.4.0
+*   - 清理方式变为仅隐藏 dom 节点, 而不再直接移除, 避免 B 站的 Vue 实例运行出现问题
+*   - 现在会移除 AdBlock 提示
+*   - 不再隐藏动态按钮
+* */
 (function() {
     'use strict'
 
@@ -32,6 +38,11 @@
 {
     margin-top: 0 !important;
 }
+
+.bili-feed4-layout
+{
+    padding-bottom: 160px;
+}
 `
         document.head.appendChild(domStyle)
     }, 1000)
@@ -39,6 +50,16 @@
     function remove(dom)
     {
         dom.parentElement.removeChild(dom)
+    }
+    function hide(dom)
+    {
+        dom.style.display = 'none'
+        dom.style.width = '0'
+        dom.style.height = '0'
+        dom.style.maxWidth = '0'
+        dom.style.maxHeight = '0'
+        dom.style.maxInlineSize = '0'
+        dom.style.maxBlockSize = '0'
     }
 
     function collectRemovingHeader()
@@ -61,7 +82,7 @@
                     case '下载客户端':
                     case '这一年':
                     case '推荐服务':
-                    case '动态':
+                    // case '动态':
                     case '投稿':
                         return true
                     default:
@@ -138,6 +159,7 @@
         const list = [
             ...document.getElementsByClassName('ad-report'),
             ...document.getElementsByClassName('ad-floor-exp'),
+            ...document.getElementsByClassName('adblock-tips'),
         ]
         for(const ad of list)
         {
@@ -166,11 +188,14 @@
         {
             try
             {
-                remove(info.dom)
-                console.log(`移除元素: `, info.caption)
+                // remove(info.dom)
+                // console.log(`移除元素: `, info.caption)
+                hide(info.dom)
+                console.log(`隐藏元素: `, info.caption)
             }
             catch (ignored) { }
 
         }
-    }, 2000);
+    }, 2000)
+    console.log(`启动页面检查清理循环完成. 如有需要手动停止维护页面请执行:\nclearInterval(${threadRemoval})`)
 })();
