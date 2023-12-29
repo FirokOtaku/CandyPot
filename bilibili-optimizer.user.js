@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name         B 站优化
+// @homepage     https://github.com/FirokOtaku/CandyPot
 // @namespace    http://tampermonkey.net/
-// @version      0.4.0
+// @version      0.5.0
 // @description  优化 B 站布局, 清理部分广告和无用内容
 // @author       Firok
 // @match        *.bilibili.com/*
@@ -10,10 +11,9 @@
 // ==/UserScript==
 
 /*
-* - 0.4.0
-*   - 清理方式变为仅隐藏 dom 节点, 而不再直接移除, 避免 B 站的 Vue 实例运行出现问题
-*   - 现在会移除 AdBlock 提示
-*   - 不再隐藏动态按钮
+* - 0.5.0
+*   - 优化清理代码
+*   - 追加清理项
 * */
 (function() {
     'use strict'
@@ -64,32 +64,40 @@
 
     function collectRemovingHeader()
     {
+        function shouldRemove(text = '')
+        {
+            const listTextToRemove = [
+                '游戏中心',
+                '创作中心',
+                '会员购',
+                '漫画',
+                '直播',
+                '赛事',
+                '大会员',
+                '下载客户端',
+                '这一年',
+                '世冠',
+                '推荐服务',
+                // '动态',
+                '投稿',
+                '来跨年'
+            ]
+            for(const textToRemove of listTextToRemove)
+            {
+                if(text.includes(textToRemove))
+                    return true
+            }
+            return false
+        }
+
         const ret = []
-        const listPopWrap = [...document.getElementsByClassName('v-popover-wrap')]
+        const listPopWrap = [
+            ...document.getElementsByClassName('v-popover-wrap'),
+            ...document.getElementsByClassName('right-entry-item'),
+        ]
         for(const elePopWrap of listPopWrap)
         {
-            function shouldRemove(text)
-            {
-                switch (text)
-                {
-                    case '游戏中心':
-                    case '创作中心':
-                    case '会员购':
-                    case '漫画':
-                    case '直播':
-                    case '赛事':
-                    case '大会员':
-                    case '下载客户端':
-                    case '这一年':
-                    case '推荐服务':
-                    // case '动态':
-                    case '投稿':
-                        return true
-                    default:
-                        return false
-                }
-            }
-            if(shouldRemove(elePopWrap.textContent) || shouldRemove(elePopWrap.innerText))
+            if(shouldRemove(elePopWrap.textContent.trim()) || shouldRemove(elePopWrap.innerText.trim()))
             {
                 ret.push({
                     type: `header`,
