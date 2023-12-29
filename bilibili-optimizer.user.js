@@ -2,7 +2,7 @@
 // @name         B 站优化
 // @homepage     https://github.com/FirokOtaku/CandyPot
 // @namespace    http://tampermonkey.net/
-// @version      0.5.0
+// @version      0.5.1
 // @description  优化 B 站布局, 清理部分广告和无用内容
 // @author       Firok
 // @match        *.bilibili.com/*
@@ -11,9 +11,8 @@
 // ==/UserScript==
 
 /*
-* - 0.5.0
-*   - 优化清理代码
-*   - 追加清理项
+* - 0.5.1
+*   - 修复错误
 * */
 (function() {
     'use strict'
@@ -53,13 +52,18 @@
     }
     function hide(dom)
     {
-        dom.style.display = 'none'
-        dom.style.width = '0'
-        dom.style.height = '0'
-        dom.style.maxWidth = '0'
-        dom.style.maxHeight = '0'
-        dom.style.maxInlineSize = '0'
-        dom.style.maxBlockSize = '0'
+        if(dom.style.display !== 'none')
+        {
+            dom.style.display = 'none'
+            dom.style.width = '0'
+            dom.style.height = '0'
+            dom.style.maxWidth = '0'
+            dom.style.maxHeight = '0'
+            dom.style.maxInlineSize = '0'
+            dom.style.maxBlockSize = '0'
+            return true
+        }
+        return false
     }
 
     function collectRemovingHeader()
@@ -80,13 +84,14 @@
                 '推荐服务',
                 // '动态',
                 '投稿',
-                '来跨年'
             ]
             for(const textToRemove of listTextToRemove)
             {
-                if(text.includes(textToRemove))
+                if(text === textToRemove)
                     return true
             }
+            if(text.includes('来跨年'))
+                return true
             return false
         }
 
@@ -198,8 +203,8 @@
             {
                 // remove(info.dom)
                 // console.log(`移除元素: `, info.caption)
-                hide(info.dom)
-                console.log(`隐藏元素: `, info.caption)
+                if(hide(info.dom))
+                    console.log(`隐藏元素: `, info.caption)
             }
             catch (ignored) { }
 
