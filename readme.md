@@ -13,7 +13,8 @@
   * 去掉首页轮播
   * 去掉直播推荐
   * 去掉少量广告
-
+* [ ![小黑盒优化](docs/logo-xiaoheihe-optimizer.svg) ](https://github.com/FirokOtaku/CandyPot/raw/master/xiaoheihe-optimizer.user.js)
+  * 不让复制粘贴内容是吧, 非得让下 APP 是吧?
 
 ## 改动记录
 
@@ -28,3 +29,9 @@
   * 清理方式变为仅隐藏 dom 节点, 而不再直接移除, 避免 B 站的 Vue 实例运行出现问题
   * 现在会移除 AdBlock 提示
   * 不再隐藏动态按钮
+
+### 小黑盒优化
+
+* 0.1.0
+  * 允许复制文字和图片内容
+  * 隐藏 APP 下载按钮
