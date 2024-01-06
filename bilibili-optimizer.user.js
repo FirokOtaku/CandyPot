@@ -2,7 +2,7 @@
 // @name         B 站优化
 // @homepage     https://github.com/FirokOtaku/CandyPot
 // @namespace    http://tampermonkey.net/
-// @version      0.5.1
+// @version      0.6.0
 // @description  优化 B 站布局, 清理部分广告和无用内容
 // @author       Firok
 // @match        *.bilibili.com/*
@@ -11,8 +11,8 @@
 // ==/UserScript==
 
 /*
-* - 0.5.1
-*   - 修复错误
+* - 0.6.0
+*   - 现在会清理 **稍后再看** 页面的标题栏
 * */
 (function() {
     'use strict'
@@ -84,6 +84,9 @@
                 '推荐服务',
                 // '动态',
                 '投稿',
+                '百大',
+                '来唱歌',
+                '大会员',
             ]
             for(const textToRemove of listTextToRemove)
             {
@@ -99,6 +102,7 @@
         const listPopWrap = [
             ...document.getElementsByClassName('v-popover-wrap'),
             ...document.getElementsByClassName('right-entry-item'),
+            ...document.getElementsByClassName('nav-link-item'),
         ]
         for(const elePopWrap of listPopWrap)
         {
