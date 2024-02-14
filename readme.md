@@ -2,7 +2,11 @@
 
 ~~这里是一罐糖, 用来喂猴~~
 
-这里有一些脚本, 运行于 [Tampermonkey](https://www.tampermonkey.net/)
+这里有一些脚本, 
+
+## 油猴脚本
+
+运行于 [Tampermonkey](https://www.tampermonkey.net/).
 
 (点击图片以安装)
 
@@ -15,6 +19,37 @@
   * 去掉少量广告
 * [ ![小黑盒优化](docs/logo-xiaoheihe-optimizer.svg) ](https://github.com/FirokOtaku/CandyPot/raw/master/xiaoheihe-optimizer.user.js)
   * 不让复制粘贴内容是吧, 非得让下 APP 是吧?
+
+## 单行脚本
+
+至少在桌面端 Chrome 浏览器下, 这些脚本可以直接保存为书签, 然后可以直接点击运行.
+
+* 显示星号密码
+  * 将页面上的 `<input type="password">` 修改为 `<input type"text">`
+  * ```javascript
+    javascript:"use strict";!function(){for(var t=document.getElementsByTagName("input"),e=0;e<t.length;e++)"password"===t[e].getAttribute("type")&&t[e].setAttribute("type","text")}();
+    ```
+* 解除网页限制
+  * 可解除部分页面上不允许复制的限制
+  * ```javascript
+    javascript:"use strict";!function(){var t=function(t){t.stopPropagation(),t.stopImmediatePropagation&&t.stopImmediatePropagation()};["copy","cut","contextmenu","selectstart","mousedown","mouseup","keydown","keypress","keyup"].forEach(function(e){document.documentElement.addEventListener(e,t,{capture:!0})}),alert("解除限制成功啦！")}();
+    ```
+* 网页自由编辑
+  * 让页面变得像 Word 一样可被自由编辑
+  * ```javascript
+    javascript:"use strict";!function(){"true"===document.body.getAttribute("contenteditable")?(document.body.setAttribute("contenteditable",!1),alert("网页不能编辑啦！")):(document.body.setAttribute("contenteditable",!0),alert("网页可以编辑啦！"))}();
+    ```
+* 复制 B 站纯净分享链接 ([源码](ols-bilibili-clean-share.js))
+  * 尝试将当前 B 站页面不带任何追踪参数 (URL 的 query 参数) 的链接复制到剪切板
+  * 使用 [JavaScript Compressor](https://www.giftofspeed.com/javascript-compressor/) 压缩
+  * B 站部分页面的定位或传参基于 query 参数, 抹掉后会导致访问的页面与当前页面不同.
+    (比如拜年祭页面, 比如搜索结果页面)
+    出现此情况请手动复制处理 URL
+  * ```javascript
+    javascript:"use strict";!function(){let i=window.location.host+window.location.pathname;if(!i.includes("bilibili.com"))return;let t=document.title;t.endsWith("_哔哩哔哩_bilibili")&&(t=t.slice(0,-14)),navigator.clipboard.writeText(`${t} ${i}`).finally((()=>{}))}();
+    ```
+
+(前面 3 个脚本忘了从什么地方转载的了, 不是我自己写的)
 
 ## 改动记录
 
@@ -37,3 +72,8 @@
 * 0.1.0
   * 允许复制文字和图片内容
   * 隐藏 APP 下载按钮
+
+### B 站纯净分享链接
+
+* 0.1.0
+  * 初步实现功能
