@@ -2,7 +2,7 @@
 // @name         B 站优化
 // @homepage     https://github.com/FirokOtaku/CandyPot
 // @namespace    http://tampermonkey.net/
-// @version      0.6.0
+// @version      0.7.0
 // @description  优化 B 站布局, 清理部分广告和无用内容
 // @author       Firok
 // @match        *.bilibili.com/*
@@ -11,8 +11,8 @@
 // ==/UserScript==
 
 /*
-* - 0.6.0
-*   - 现在会清理 **稍后再看** 页面的标题栏
+* - 0.7.0
+*   - 提高搜索栏在未选中状态下的透明度
 * */
 (function() {
     'use strict'
@@ -41,6 +41,42 @@
 .bili-feed4-layout
 {
     padding-bottom: 160px;
+}
+
+#nav-searchform
+{
+    background-color: rgba(255, 255, 255, 0.1) !important
+}
+#nav-searchform:focus-within
+{
+    background-color: rgba(255, 255, 255, 0.35) !important
+}
+.nav-search-content
+{
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: black !important;
+}
+.nav-search-content:focus-within
+{
+    background-color: rgba(255, 255, 255, 0.8) !important;
+}
+.nav-search-input
+{
+    background-color: transparent !important;
+}
+.search-panel
+{
+    background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.history-item
+{
+    border: rgba(0, 0, 0, 0.1) 1px solid
+}
+.trending-item:hover
+{
+    background: transparent !important;
+    color: var(--text_link);
 }
 `
         document.head.appendChild(domStyle)
