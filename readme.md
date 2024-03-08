@@ -19,6 +19,8 @@
   * 去掉少量广告
 * [ ![小黑盒优化](docs/logo-xiaoheihe-optimizer.svg) ](https://github.com/FirokOtaku/CandyPot/raw/master/xiaoheihe-optimizer.user.js)
   * 不让复制粘贴内容是吧, 非得让下 APP 是吧?
+* [ ![Label Studio 优化](docs/logo-label-studio-optimizer.svg) ](https://github.com/FirokOtaku/CandyPot/raw/master/label-studio-optimizer.user.js)
+  * 给 Label Studio 加一点 **真正有用** 的快捷键
 
 ## 单行脚本
 
@@ -79,3 +81,8 @@
 
 * 0.1.0
   * 初步实现功能
+
+### Label Studio 优化
+
+* 0.1.0
+  * 增加键鼠快捷键
