@@ -1,13 +1,13 @@
 /**
  * one line script
  * bilibili clean share
- * @version 0.1.0
+ * @version 0.2.0
  * @author Firok
  * */
 'use strict'
 
 !function(){
-    let url = window.location.host + window.location.pathname
+    let url = window.location.protocol + '//' + window.location.host + window.location.pathname
     if(!url.includes('bilibili.com'))
         return
 

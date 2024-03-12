@@ -48,7 +48,7 @@
     (比如拜年祭页面, 比如搜索结果页面)
     出现此情况请手动复制处理 URL
   * ```javascript
-    javascript:"use strict";!function(){let i=window.location.host+window.location.pathname;if(!i.includes("bilibili.com"))return;let t=document.title;t.endsWith("_哔哩哔哩_bilibili")&&(t=t.slice(0,-14)),navigator.clipboard.writeText(`${t} ${i}`).finally((()=>{}))}();
+    javascript:"use strict";!function(){let i=window.location.protocol+"//"+window.location.host+window.location.pathname;if(!i.includes("bilibili.com"))return;let t=document.title;t.endsWith("_哔哩哔哩_bilibili")&&(t=t.slice(0,-14)),navigator.clipboard.writeText(`${t} ${i}`).finally((()=>{}))}();
     ```
 
 (前面 3 个脚本忘了从什么地方转载的了, 不是我自己写的)
@@ -79,6 +79,8 @@
 
 ### B 站纯净分享链接
 
+* 0.2.0
+  * 现在复制出的链接会包含 URL 协议部分
 * 0.1.0
   * 初步实现功能
 
