@@ -2,7 +2,7 @@
 // @name         Label Studio 优化
 // @homepage     https://github.com/FirokOtaku/CandyPot
 // @namespace    http://tampermonkey.net/
-// @version      0.1.0
+// @version      0.2.0
 // @description  优化 Label Studio 使用体验
 // @author       Firok
 // @match        */*
@@ -12,6 +12,11 @@
 
 'use strict'
 
+/**
+ * * 0.2.0
+ *   * 增加鼠标右键快捷键
+ *   * 新增快捷键说明
+ * */
 !function() {
     /**
      * 检查是否是 Label Studio 页面
@@ -74,6 +79,16 @@
         return ret
     }
 
+    /**
+     * 获取页面上正在标注的图片内容
+     * @return {HTMLElement}
+     * */
+    function getMarkingImage()
+    {
+        const list = [...document.getElementsByClassName('konvajs-content')]
+        return list.length > 0 ? list[0] : null
+    }
+
     // 注入快捷键
     document.body.addEventListener('keydown', (event) => {
         if(!event.altKey) return
@@ -109,7 +124,36 @@
             }
         }
     })
-    document.body.addEventListener('mousedown', (event) => {
-        console.log('mouse click', event)
+    document.body.addEventListener('contextmenu', (event) => {
+        switch (event.button)
+        {
+            case 2: // 鼠标右键
+            {
+                // 检查是否在图片上面
+                const domImage = getMarkingImage()
+                if(domImage === null) return
+                const bbox = domImage.getBoundingClientRect()
+
+                const mouseClientX = event.clientX, mouseClientY = event.clientY
+                if(mouseClientX >= bbox.left && mouseClientX <= bbox.right && mouseClientY >= bbox.top && mouseClientY <= bbox.bottom)
+                {
+                    event.preventDefault()
+                    // 模拟点击撤销按钮
+
+                    const domButtonUndo = document.querySelector('div.lsf-history-buttons > button:nth-child(1)[aria-label="Undo"]')
+                    const isDisabled = domButtonUndo.hasAttribute('disabled')
+                    if(!isDisabled) domButtonUndo.click()
+                }
+            }
+        }
     })
+
+    console.log(`
+    Alt + [1-9] = 快速选择标注标签
+    Alt + C = 隐藏和显示所有区域
+    Alt + S = 保存
+    Alt + Q = 上一张图片
+    Alt + W = 下一张图片
+    右键图片 = 撤销
+    `)
 }()
