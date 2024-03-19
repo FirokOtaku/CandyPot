@@ -20,7 +20,15 @@
 * [ ![小黑盒优化](docs/logo-xiaoheihe-optimizer.svg) ](https://github.com/FirokOtaku/CandyPot/raw/master/xiaoheihe-optimizer.user.js)
   * 不让复制粘贴内容是吧, 非得让下 APP 是吧?
 * [ ![Label Studio 优化](docs/logo-label-studio-optimizer.svg) ](https://github.com/FirokOtaku/CandyPot/raw/master/label-studio-optimizer.user.js)
+  * ~~Label Studio 自带的快捷键都什么臭鱼烂虾~~
   * 给 Label Studio 加一点 **真正有用** 的快捷键
+  * (所有快捷键仅针对图片标注模式)
+    * `Alt + [1-9]` 快速选择标注标签
+    * `Alt + C` 隐藏和显示所有区域
+    * `Alt + S` 保存
+    * `Alt + Q` 上一张图片
+    * `Alt + W` 下一张图片
+    * `右键图片` 撤销
 
 ## 单行脚本
 
