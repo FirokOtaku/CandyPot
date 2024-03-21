@@ -29,6 +29,8 @@
     * `Alt + Q` 上一张图片
     * `Alt + W` 下一张图片
     * `右键图片` 撤销
+* [ ![PTable 优化](docs/logo-ptable-optimizer.svg) ](https://github.com/FirokOtaku/CandyPot/raw/master/ptable-optimizer.user.js)
+  * 广告再见
 
 ## 单行脚本
 
@@ -99,3 +101,7 @@
   * 新增快捷键说明
 * 0.1.0
   * 增加键鼠快捷键
+
+### PTable 优化
+
+* 去除页面顶部广告
