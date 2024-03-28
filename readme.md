@@ -29,6 +29,11 @@
     * `Alt + Q` 上一张图片
     * `Alt + W` 下一张图片
     * `右键图片` 撤销
+    * `Alt + I` AI 辅助推理  
+      需要正确配置 [Label Studio Autopilot]()  
+      (默认发送请求到 `localhost:39270`,  
+      如果需要调整 Label Studio Autopilot 服务器地址,  
+      可以在浏览器控制台运行 `pot.url = "新地址"`)
 * [ ![PTable 优化](docs/logo-ptable-optimizer.svg) ](https://github.com/FirokOtaku/CandyPot/raw/master/ptable-optimizer.user.js)
   * 广告再见
 
@@ -96,6 +101,8 @@
 
 ### Label Studio 优化
 
+* 0.3.0
+  * 增加 AI 辅助推理快捷键
 * 0.2.0
   * 增加鼠标右键快捷键
   * 新增快捷键说明

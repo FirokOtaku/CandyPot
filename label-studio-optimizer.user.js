@@ -2,7 +2,7 @@
 // @name         Label Studio 优化
 // @homepage     https://github.com/FirokOtaku/CandyPot
 // @namespace    http://tampermonkey.net/
-// @version      0.2.0
+// @version      0.3.0
 // @description  优化 Label Studio 使用体验
 // @author       Firok
 // @match        */*
@@ -13,9 +13,8 @@
 'use strict'
 
 /**
- * * 0.2.0
- *   * 增加鼠标右键快捷键
- *   * 新增快捷键说明
+ * * 0.3.0
+ *   * 增加辅助标注快捷键
  * */
 !function() {
     /**
@@ -33,6 +32,11 @@
     {
         console.log('Label Studio 优化 - 检测到 Label Studio 页面, 执行优化')
     }
+
+    const pot = {
+        url: 'http://localhost:39270',
+    }
+    window['pot'] = pot
 
     /**
      * 获取可选标签
@@ -122,6 +126,33 @@
                 if(images.selected < images.length - 1)
                     images.doms[images.selected + 1].dom.click()
             }
+        }
+        // 辅助标注
+        else if(event.key === 'i')
+        {
+            const taskId = new URL(document.location.href).searchParams.get('task')
+            const url = `${pot.url}?taskId=${taskId}`
+
+            // const exchange = new XMLHttpRequest()
+            // exchange.onreadystatechange = () => {
+            //     if(exchange.readyState === 4)
+            //     {
+            //         const ok = exchange.status === 200
+            //         console.log(
+            //             exchange.status,
+            //             exchange.statusText,
+            //             ok ? '辅助标注完成' : '辅助标注出错',
+            //         )
+            //     }
+            // }
+            // exchange.open('get', url)
+            // exchange.send()
+
+            // 解决跨域问题? 解决个屁
+            // 又不是不能用
+            const win = window.open(url, 'waiting..', 'popup=true,width=100,height=100,left=50,top=50')
+            window.focus()
+            setTimeout(() => win.close(), 1000);
         }
     })
     document.body.addEventListener('contextmenu', (event) => {
