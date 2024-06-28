@@ -2,7 +2,7 @@
 // @name         B 站优化
 // @homepage     https://github.com/FirokOtaku/CandyPot
 // @namespace    http://tampermonkey.net/
-// @version      0.7.0
+// @version      0.8.0
 // @description  优化 B 站布局, 清理部分广告和无用内容
 // @author       Firok
 // @match        *.bilibili.com/*
@@ -11,7 +11,7 @@
 // ==/UserScript==
 
 /*
-* - 0.7.0
+* - 0.8.0
 *   - 提高搜索栏在未选中状态下的透明度
 * */
 (function() {
@@ -33,7 +33,7 @@
     max-height: 400px !important;
 }
 
-.container>*:nth-of-type(n + 8)
+.feed-card 
 {
     margin-top: 0 !important;
 }
@@ -123,6 +123,8 @@
                 '百大',
                 '来唱歌',
                 '大会员',
+                '时光',
+                'BML',
             ]
             for(const textToRemove of listTextToRemove)
             {
