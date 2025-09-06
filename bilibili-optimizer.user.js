@@ -2,28 +2,77 @@
 // @name         B 站优化
 // @homepage     https://github.com/FirokOtaku/CandyPot
 // @namespace    http://tampermonkey.net/
-// @version      0.8.0
+// @version      0.9.0
 // @description  优化 B 站布局, 清理部分广告和无用内容
 // @author       Firok
 // @match        *.bilibili.com/*
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=bilibili.com
-// @grant        none
+// @require      vue.js        https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js
+// @require      beer.min.css  https://cdn.jsdelivr.net/npm/beercss@3.6.8/dist/cdn/beer.min.css
+// @require      beer.min.js   https://cdn.jsdelivr.net/npm/beercss@3.6.8/dist/cdn/beer.min.js
+// @grant        GM_getResourceText
+// @grant        GM_getValue
+// @grant        GM_setValue
+// @grant        GM_deleteValue
 // ==/UserScript==
 
 /*
-* - 0.8.0
-*   - 移除更多标题栏广告
+* - 0.9.0
+*   - 优化页面右上角托盘显示样式
+*   - 优化信息流内容屏蔽代码
 * */
 (function() {
     'use strict'
 
+    // const textVueJs = GM_getResourceText('vue.js')
+    // const textBeerMinCss = GM_getResourceText('beer.min.css')
+    // const textBeerMinJs = GM_getResourceText('beer.min.js')
+
     setTimeout(() => {
         const domStyle = document.createElement('style')
         domStyle.innerHTML = `
-    .v-popover-content.header-favorite-popover
+    .v-popover-content.header-favorite-popover, .favorite-panel-popover > div
 {
     height: calc(100vh - 80px) !important;
     max-height: calc(100vh - 80px) !important;
+}
+#favorite-content-scroll {
+    height: calc(100vh - 90px - 40px) !important;
+    max-height: calc(100vh - 90px - 40px) !important;
+}
+
+.right-entry > li:nth-child(4) > div:nth-child(2)
+{
+    margin-left: -100px !important;
+    height: calc(100vh - 90px - 40px) !important;
+    max-height: calc(100vh - 90px - 40px) !important;
+    
+    .v-popover-content, .dynamic-panel-popover, #biliHeaderDynScrollCon {
+        height: calc(100vh - 90px - 40px) !important;
+        max-height: calc(100vh - 90px - 40px) !important;
+    }
+}
+.right-entry > li:nth-child(5) > div:nth-child(2) 
+{
+    margin-left: -200px !important;
+}
+
+.v-popover-content, .history-panel-popover {
+    height: calc(100vh - 90px - 50px) !important;
+    max-height: calc(100vh - 90px - 50px) !important;
+}
+.header-tabs-panel__content {
+    height: calc(100vh - 90px - 105px) !important;
+    max-height: calc(100vh - 90px - 105px) !important;
+}
+.right-entry > li:nth-child(6) > div:nth-child(2)
+{
+    margin-left: -160px !important;
+    
+    .header-tabs-panel {
+        height: 54px !important;
+        max-height: 54px !important;
+    }
 }
 
 .video-sections-content-list
@@ -33,7 +82,7 @@
     max-height: 400px !important;
 }
 
-.feed-card 
+.feed-card, .bili-feed-card
 {
     margin-top: 0 !important;
 }
@@ -86,7 +135,7 @@
     {
         dom.parentElement.removeChild(dom)
     }
-    function hide(dom)
+    function _hide(dom)
     {
         if(dom.style.display !== 'none')
         {
@@ -100,6 +149,25 @@
             return true
         }
         return false
+    }
+    function hide(dom)
+    {
+        let result = _hide(dom)
+
+        let parentDom = dom.parentElement
+        while(parentDom != null)
+        {
+            if(parentDom.classList.contains('bili-feed-card'))
+            {
+                result |= _hide(parentDom)
+
+                parentDom = null
+            }
+
+            parentDom = parentDom.parentElement
+        }
+
+        return result
     }
 
     function collectRemovingHeader()
@@ -230,7 +298,8 @@
 
     function collectBlocked()
     {
-        ;
+        // 自定义拦截
+        // 暂时没有实现
     }
 
     const threadRemoval = setInterval(() => {
